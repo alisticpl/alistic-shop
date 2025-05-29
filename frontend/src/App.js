@@ -325,7 +325,7 @@ const ProductPage = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Zdjęcie produktu */}
-          <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
+          <div className="aspect-square rounded-lg overflow-hidden bg-gray-100 relative">
             <img
               src={product.image}
               alt={product.name}
@@ -334,7 +334,7 @@ const ProductPage = () => {
               onError={() => setLoading(false)}
             />
             {loading && (
-              <div className="absolute inset-0 flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
               </div>
             )}
