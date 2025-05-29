@@ -17,7 +17,7 @@ const sampleProducts = [
     description:
       "Klasyczna koszulka z wysokiej jakości bawełny. Idealna na co dzień i na specjalne okazje. Miękka w dotyku i trwała.",
     size: "S",
-    image: "img\toxicfrontmark.png",
+    image: "/img/toxicfrontmark.png",
     vintedUrl: "",
     instagramProfile: "alistic_polska",
   },
@@ -273,118 +273,122 @@ const PurchaseModal = ({ isOpen, onClose, product }) => {
 
 // Strona produktu
 const ProductPage = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const product = sampleProducts.find((p) => p.id === parseInt(id));
-
-  if (!product) {
+  const [loading, setLoading] = useState(true);
+  
+  // In image component:
+  <img
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  
+    const product = sampleProducts.find((p) => p.id === parseInt(id));
+  
+    if (!product) {
+      return (
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-black mb-4">
+              Produkt nie znaleziony
+            </h2>
+            <button
+              onClick={() => navigate("/")}
+              className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+            >
+              Wróć do głównej
+            </button>
+          </div>
+        </div>
+      );
+    }
+  
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-black mb-4">
-            Produkt nie znaleziony
-          </h2>
+      <div className="min-h-screen bg-white">
+        <Header />
+  
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <button
             onClick={() => navigate("/")}
-            className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+            className="flex items-center text-gray-600 hover:text-black mb-8 transition-colors"
           >
-            Wróć do głównej
+            <svg
+              className="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Wróć do sklepu
           </button>
+  
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Zdjęcie produktu */}
+            <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+  
+            {/* Szczegóły produktu */}
+            <div className="flex flex-col justify-center">
+              <h1 className="text-3xl md:text-4xl font-bold text-black mb-4">
+                {product.name}
+              </h1>
+  
+              <p className="text-2xl font-bold text-black mb-6">
+                {product.price}
+              </p>
+  
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-black mb-2">Rozmiar</h3>
+                <span className="inline-block px-4 py-2 bg-green-500 text-white font-medium rounded-lg">
+                  {product.size}
+                </span>
+              </div>
+  
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold text-black mb-3">Opis</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {product.description}
+                </p>
+              </div>
+  
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="w-full bg-green-500 text-white font-bold py-4 px-8 rounded-lg hover:bg-green-600 transition-colors text-lg"
+              >
+                KUP TERAZ
+              </button>
+  
+              <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                <h4 className="font-semibold text-black mb-2">
+                  Informacje o dostawie:
+                </h4>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  <li>• Bezpieczna wysyłka</li>
+                  <li>• Możliwość odbioru osobistego</li>
+                  <li>• Kontakt przez Instagram lub Vinted</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
+  
+        <PurchaseModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          product={product}
+        />
       </div>
     );
-  }
-
-  return (
-    <div className="min-h-screen bg-white">
-      <Header />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <button
-          onClick={() => navigate("/")}
-          className="flex items-center text-gray-600 hover:text-black mb-8 transition-colors"
-        >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          Wróć do sklepu
-        </button>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Zdjęcie produktu */}
-          <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          {/* Szczegóły produktu */}
-          <div className="flex flex-col justify-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-black mb-4">
-              {product.name}
-            </h1>
-
-            <p className="text-2xl font-bold text-black mb-6">
-              {product.price}
-            </p>
-
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-black mb-2">Rozmiar</h3>
-              <span className="inline-block px-4 py-2 bg-green-500 text-white font-medium rounded-lg">
-                {product.size}
-              </span>
-            </div>
-
-            <div className="mb-8">
-              <h3 className="text-lg font-semibold text-black mb-3">Opis</h3>
-              <p className="text-gray-600 leading-relaxed">
-                {product.description}
-              </p>
-            </div>
-
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="w-full bg-green-500 text-white font-bold py-4 px-8 rounded-lg hover:bg-green-600 transition-colors text-lg"
-            >
-              KUP TERAZ
-            </button>
-
-            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-              <h4 className="font-semibold text-black mb-2">
-                Informacje o dostawie:
-              </h4>
-              <ul className="text-sm text-gray-600 space-y-1">
-                <li>• Bezpieczna wysyłka</li>
-                <li>• Możliwość odbioru osobistego</li>
-                <li>• Kontakt przez Instagram lub Vinted</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <PurchaseModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        product={product}
-      />
-    </div>
-  );
-};
+  };
 
 // Sekcja About (mała)
 const AboutSection = () => {
